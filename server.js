@@ -36,35 +36,19 @@ nunjucks.configure("./", {
 
 
 
-///////////// LISTE DE DONNEURS //////////////////
-// nunjucks nous permet d'envoyer des données à notre code html cf. config de la renderisation de la page
-const donors = [
-    {
-        name: "Marie Dupont",
-        blood: "AB+"
-    },
-    {
-        name: "Jean Martin",
-        blood: "B+"
-    },
-    {
-        name: "Anne Marie Durand",
-        blood: "A+"
-    },
-    {
-        name: "François Monnet",
-        blood: "O+"
-    },
-]
-
-
 
 
 ////// CONFIGURATION DE LA PRESENTATION DE LA PAGE ////////
 // on demande à accéder à /, une fois que c'est fait
 // la fonction s'éxecute avec les deux paramètres req et res
 server.get("/", function(req, res) {
-    return res.render("index.html", { donors });
+    db.query("SELECT * FROM donors", function(error, result) {
+        if (error) return res.send("Erreur dans la base de données");
+
+        const donors = result.rows; // rows = lignes dans la bdd
+
+        return res.render("index.html", { donors });
+    })   
 });
 
 // recevoir les données du formulaire
@@ -73,9 +57,24 @@ server.post("/", function(req, res) {
     const email = req.body.email;
     const blood = req.body.blood;
 
-    donors.push({ name, blood });
+    if (name == "" || email == "" || blood == "") {
+        return res.send("Tous les champs sont obligatoires");
+    }
 
-    return res.redirect("/");
+    // mettre les valeurs dans la bdd
+
+    const query = `
+        INSERT INTO donors ("name", "email", "blood") 
+        VALUES ($1, $2, $3)` 
+
+    const values = [name, email, blood];
+
+    db.query(query, values, function(error) {
+        // si erreur
+        if (error) return res.send("Erreur dans la base de données");
+        // si tout est ok
+        return res.redirect("/");
+    });
 })
 
 
