@@ -12,4 +12,6 @@ server.get("/", function(req, res) {
 })
 
 // on écoute le port 3000
-server.listen(3000);
+server.listen(3000, function() {
+    console.log("Serveur ok")
+});
