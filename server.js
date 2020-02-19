@@ -10,7 +10,18 @@ const server = express();
 server.use(express.static('public'));
 
 //////// ACCEDER AU BODY DE LA REQUETE ///////////
-server.use(express.urlencoded({ extended: true }))
+server.use(express.urlencoded({ extended: true }));
+
+//////// CONFIGURATION CONNEXION BDD ////////////////
+// Pool va mantenir la connexion avec la bdd active, on aura pas besoin de l'actualiser (envoi de mot de passe) tout le temps
+const Pool = require('pg').Pool;
+const db = new Pool({
+    user: 'postgres',
+    password: 'Mi182123@',
+    host: 'localhost',
+    port: 5432,
+    database: 'blood-donation'
+}); 
 
 
 
