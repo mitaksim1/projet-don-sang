@@ -1,0 +1,156 @@
+/*
+ GLOBAL
+*/
+
+/* Correction du css native */
+* {
+    box-sizing: border-box; /* Empêche que le padding s'ajoute à la largeur et dépasse des 100% */
+}
+
+html, body {
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f9f9f9;
+}
+
+h1, h2 {
+    color: #000000cc;
+}
+
+/* TITRES */
+h1 {
+    font-size: 50px;
+}
+
+header h1, main h2 {
+    margin-bottom: 70px;
+}
+
+main h2 span {
+    color: #ff4f4f;
+}
+
+.form h2 {
+    text-align: right;
+    color: #ffffffee;
+    font-size: 18px;
+}
+
+/* STRUCTURES */
+header, main, footer{
+    text-align: center;
+}
+
+header, .form, main {
+    margin-bottom: 70px;
+    width: 90%;
+    max-width: 500px;
+    margin: 0 auto 70px;
+}
+
+header button {
+    margin-top: 16px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    background-color: #ff4f4f;
+    color: #fff;
+    font-weight: bold;
+}
+
+.logo {
+    width: 35px;
+    margin-top: 50px;
+}
+
+header p {
+    font-size: 14px;
+}
+
+/* FORM */
+.form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* pour espacer les deux grids*/
+    grid-gap: 45px;
+    align-items: center;
+    background-color: #ff4f4f;
+    padding: 16px 64px;
+    border-radius: 6px;
+}
+
+form input, form button {
+    width: 100%;
+    margin-bottom: 4px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: 1px #ffffff88 solid;  
+}
+
+form input {
+    background-color: transparent;
+}
+
+/* Placeholder c'est un "pseudo-élément", on utilise alors les :: pour y accéder */
+form input::placeholder {
+    color: #ffffffaa;
+}
+
+form button {
+    font-weight: bold;
+}
+
+/* MAIN */
+
+/* Grid permet de créer des colonnes, ici on souhaite créer quatre colonnes de la même taille
+pour ça on met quatre fois 1fr, comme ça l'espace va être distribue uniformement et ça reste responsive
+*/
+main .donors {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr; 
+}
+
+.blood {
+    color: #ff4f4f;
+    font-weight: bold;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    position: relative; /* Comme je veux que les éléments soient à l'intérieur de l'élément ::before je passe blood en position relative */
+    justify-content: center;
+}
+
+/* On va créer un élément vide "before" dans la div .blood*/
+.blood::before {
+    content: "";
+    background-color: #ff4f4f11;
+    width: 40px;
+    height: 40px;
+    position: absolute; /* On passe cet élément en position absolute pour pouvoir le bouger */
+
+    /* faire la goute */
+    border-radius: 50%;
+    border-top-right-radius: 0;
+    transform: rotate(-45deg);
+}
+
+.donor p {
+    margin-top: 24px;
+    font-size: 14px;
+}
+
+/* FOOTER */
+
+/* On a mis une hauteur de 100vh au body pour pouvoir travailler le footer, en mettant margin-top il va se "coller" en bas */
+footer {
+    margin-top: auto;
+    padding-bottom: 16px;
+    border-top: 1px solid #eee;
+}
+
