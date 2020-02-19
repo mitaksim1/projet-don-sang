@@ -9,15 +9,42 @@ const server = express();
 // récupères les fichiers statics (image, css, scripts)
 server.use(express.static('public'));
 
+//////// ACCEDER AU BODY DE LA REQUETE ///////////
+server.use(express.urlencoded({ extended: true }))
 
 
 
 /////// CONFIGURATION TEMPLATE ENGINE ////////////
 // nunjucks renderise la page html créée sans les fichiers statics
+// noCache: on veut pas qu'il utilise le
 const nunjucks = require("nunjucks");
 nunjucks.configure("./", {
-    express: server
+    express: server,
+    noCache: true,
 });
+
+
+
+///////////// LISTE DE DONNEURS //////////////////
+// nunjucks nous permet d'envoyer des données à notre code html cf. config de la renderisation de la page
+const donors = [
+    {
+        name: "Marie Dupont",
+        blood: "AB+"
+    },
+    {
+        name: "Jean Martin",
+        blood: "B+"
+    },
+    {
+        name: "Anne Marie Durand",
+        blood: "A+"
+    },
+    {
+        name: "François Monnet",
+        blood: "O+"
+    },
+]
 
 
 
@@ -26,8 +53,21 @@ nunjucks.configure("./", {
 // on demande à accéder à /, une fois que c'est fait
 // la fonction s'éxecute avec les deux paramètres req et res
 server.get("/", function(req, res) {
-    return res.render("index.html");
+    return res.render("index.html", { donors });
 });
+
+// recevoir les données du formulaire
+server.post("/", function(req, res) {
+    const name = req.body.name;
+    const email = req.body.email;
+    const blood = req.body.blood;
+
+    donors.push({ name, blood });
+
+    return res.redirect("/");
+})
+
+
 
 
 

@@ -129,7 +129,7 @@ main .donors {
 /* On va créer un élément vide "before" dans la div .blood*/
 .blood::before {
     content: "";
-    background-color: #ff4f4f11;
+    background-color: #eba0a030;
     width: 40px;
     height: 40px;
     position: absolute; /* On passe cet élément en position absolute pour pouvoir le bouger */
@@ -142,6 +142,7 @@ main .donors {
 
 .donor p {
     margin-top: 24px;
+    margin-bottom: 64px;
     font-size: 14px;
 }
 
